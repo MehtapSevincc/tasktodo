@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <title>Task To Do</title>
 </head>
 <body>
-       
-     <div class="container">
-    <h1>To Do List</h1>
-    <div class="add-task">
-      <button id="addTaskBtn">+</button>
-      <input type="text" id="newTaskInput" placeholder="Yeni görev ekle..." />
-    </div>
-    <div id="taskList"></div>
-    <div class="filters">
-      <button class="filter-btn" id="allBtn">Hepsi</button>
-      <button class="filter-btn" id="completedBtn">Tamamlananlar</button>
-      <button class="filter-btn" id="incompleteBtn">Tamamlanmayanlar</button>
-    </div>
-  </div>
+       <div class="container">
+       <h1>TO DO LİST</h1>
+     
+       <div class="add-task">
+          <i class="fa-solid fa-pencil"></i>
+          <div id="input" class="hidden">
+          <input type="text" id="newTaskInput" placeholder="Yeni Görevini Ekle">
+          <button id="addtaskbtn">+</button>
+          </div>
+  
+       </div>
 
+        <div class="filters">
+            <button class="filter-btn" id="allbtn">Hepsi</button>
+             <button class="filter-btn" id="completebtn">Tamamlananlar</button>
+              <button class="filter-btn" id="incompletebtn">Tamamlanmayanlar</button>
+        </div>
 
+       <div id="tasklist"></div>
 
-
+       </div>
+    
 
  <script src="assets/script.js"></script>
 </body>
