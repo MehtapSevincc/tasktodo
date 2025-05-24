@@ -32,6 +32,10 @@ body {
   cursor: pointer;
   color: #0e82fe;
 }
+#input.hidden {
+display: none;
+}
+
 #input {
   flex: 1;
   display: flex;
@@ -73,7 +77,44 @@ body {
   color: white;
   border-color:#0e82fe ;
 }
-
+#tasklist{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.task-item{
+  background-color: #f9f9f9;
+  padding: 12px 15px;
+  border-left:  5px solid #0e82fe;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s ease;
+}
+.task-item.completed{
+  text-decoration: line-through;
+  color: #777;
+  border-left-color: rgb(2, 160, 2);
+}
+.task-item:hover {
+  background: #f1f1f1;
+}
+.task-item .actions button{
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+.task-item .actions{
+  display: flex;
+  gap: 10px;
+}
+.task-item .log{
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
 
 
 
