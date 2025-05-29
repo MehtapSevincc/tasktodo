@@ -1,4 +1,4 @@
-const pencilIcon=document.querySelector(".fa-pencil");
+
 const inputDiv= document.getElementById("input");
 const taskInput= document.getElementById("newTaskInput");
 const addTaskBtn =document.getElementById("addtaskbtn");
@@ -11,10 +11,6 @@ const incompleteBtn=document.getElementById("incompletebtn");
 let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter ="all";
 
-pencilIcon.addEventListener("click",() =>{
-  inputDiv.classList.toggle("hidden");
-  taskInput.focus();
-});
  
 addTaskBtn.addEventListener("click",() => {
 const text = taskInput.value.trim();

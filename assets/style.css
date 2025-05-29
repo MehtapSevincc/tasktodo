@@ -32,9 +32,7 @@ body {
   cursor: pointer;
   color: #0e82fe;
 }
-#input.hidden {
-display: none;
-}
+
 
 #input {
   flex: 1;
