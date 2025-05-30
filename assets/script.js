@@ -1,4 +1,3 @@
-
 const inputDiv= document.getElementById("input");
 const taskInput= document.getElementById("newTaskInput");
 const addTaskBtn =document.getElementById("addtaskbtn");
@@ -22,7 +21,10 @@ tasks.push ({
   completed :false,
   createdAt: now,
   updatedAt: null,
-  completedAt:null
+  completedAt:null,
+  deleted :false,
+  deletedAt: null
+
 });
 
 taskInput.value ="";
@@ -59,7 +61,8 @@ function enableInlineEdit(taskElement, index) {
 }
 
 function deleteTask(index){
-  tasks.splice(index,1);
+  tasks[index].deleted = true;
+  tasks[index].deletedAt = new Date().toISOString();
   saveAndRender();
 }
 
@@ -99,13 +102,19 @@ function getLog(task) {
 }
 function renderTasks() {
   taskList.innerHTML = "";
-  const filtered = tasks.filter(task =>{
-    if( currentFilter === "completed") return task.completed;
-    if(currentFilter ==="incomplete") return !task.completed;
-    return true;
-  });
 
-  filtered.forEach((task,i) =>{
+const filtered = tasks.filter(task => {
+  if (currentFilter === "completed") {
+    return task.completed && !task.deleted;
+  }
+  if (currentFilter === "incomplete") {
+    return !task.completed && !task.deleted;
+  }
+  return !task.deleted;
+});
+
+  filtered.forEach((task,) =>{
+   const index =tasks.indexOf(task); 
   const div =document.createElement("div");
   div.className = "task-item";
   if(task.completed) div.classList.add("completed");
@@ -128,17 +137,17 @@ function renderTasks() {
 
   const completebtn=document.createElement("button");
   completebtn.textContent ="✅";
-  completebtn.onclick =() => toggleComplete(i);
+  completebtn.onclick =() => toggleComplete(index);
 
   const editBtn =document.createElement("button");
   editBtn.textContent= "✏️";
   editBtn.onclick =() =>{
     const newTaskText=div.querySelector("strong");
-    enableInlineEdit(newTaskText,i);
+    enableInlineEdit(newTaskText,index);
   };
   const deleteBtn =document.createElement("button");
   deleteBtn.textContent ="🗑️";
-  deleteBtn.onclick = () => deleteTask(i);
+  deleteBtn.onclick = () => deleteTask(index);
 
   actions.appendChild(completebtn);
   actions.appendChild(editBtn);
@@ -150,13 +159,42 @@ function renderTasks() {
 taskList.appendChild(div);
 
   });
+  if(currentFilter === "all"){
+    const deletedTasks= tasks
+    .filter(task =>task.deleted)
+  .sort((a,b)=> new Date(b.deletedAt)-new Date(a.deletedAt));
+  
+
+ 
+  
+  if(deletedTasks.length > 0){
+    const deleteHeader =document.createElement("h3");
+    deleteHeader.textContent ="Silinen Görevler";
+    deleteHeader.className ="deleted-header";
+    taskList.appendChild(deleteHeader);
+  }
+    deletedTasks.forEach(task => {
+    const div = document.createElement("div");
+    div.className = "task-item deleted";
+
+    const taskText = document.createElement("span");
+    taskText.textContent = task.text;
+
+    const log = document.createElement("div");
+    log.className = "log";
+    log.textContent = `🗑️ Silindi: ${formatDate(task.deletedAt)}`;
+
+    div.appendChild(taskText);
+    div.appendChild(log);
+    taskList.appendChild(div);
+  });
+}
 }
 function saveAndRender(){
   localStorage.setItem("tasks",JSON.stringify(tasks));
   renderTasks();
 }
 renderTasks();
-
 
 
 

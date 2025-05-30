@@ -114,9 +114,14 @@ body {
   margin-top: 5px;
 }
 
-
-
-
+.task-item.deleted {
+  background-color: #fedddd;
+  color: #a00;
+  border-left-color: #a00;
+}
+.deleted-header{
+  color: #a00;
+}
 
 
 
