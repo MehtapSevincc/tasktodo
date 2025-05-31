@@ -1,7 +1,7 @@
 const inputDiv = document.getElementById("input");
-input.style.flex = "1";
-input.style.display = "flex";
-input.style.gap = "10px";
+inputDiv.style.flex = "1";
+inputDiv.style.display = "flex";
+inputDiv.style.gap = "10px";
 const taskInput = document.getElementById("newTaskInput");
 newTaskInput.style.flex = "1";
 newTaskInput.style.padding = "10px";
@@ -152,7 +152,7 @@ function renderTasks() {
     const taskText = document.createElement("strong");
     taskText.textContent = task.text;
     taskText.classList.add("task-text");
-    taskText.addEventListener("click", () => enableInlineEdit(taskText, i));
+    taskText.addEventListener("click", () => enableInlineEdit(taskText, index));
 
     const logData = getLog(task);
     const log = document.createElement("div");
