@@ -60,27 +60,15 @@ function enableInlineEdit(taskElement, index) {
   taskElement.replaceWith(input);
   input.focus();
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const newText = input.value.trim();
-      if (newText) {
-        const now =new Date().toISOString();
-        tasks[index].text = newText;
-        tasks[index].updatedAt = now;
-        tasks[index].history.push({ action : "Güncellendi",date:now});
-        saveAndRender();
-      } else {
-        saveAndRender(); 
-      }
+   input.addEventListener("blur", () => {
+    const newText = input.value.trim();
+    if (newText && newText !== tasks[index].text) {
+      const now = new Date().toISOString();
+      tasks[index].text = newText;
+      tasks[index].updatedAt = now;
+      tasks[index].history.push({ action: "Güncellendi", date: now });
     }
-
-    if (e.key === "Escape") {
-      saveAndRender(); 
-    }
-  });
-
-  input.addEventListener("blur", () => {
-    saveAndRender(); 
+    saveAndRender();
   });
 }
 
@@ -126,10 +114,11 @@ function formatDate(isoStr){
   const d = new Date(isoStr);
    return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
 }
+
 function getLog(task) {
-  if (task.completedAt) return `✔ Tamamlandı: ${formatDate(task.completedAt)}`;
-  if (task.updatedAt) return `📝 Güncellendi: ${formatDate(task.updatedAt)}`;
-  return `📅 Oluşturuldu: ${formatDate(task.createdAt)}`;
+  if (task.completedAt) return { text: `Tamamlandı: ${formatDate(task.completedAt)}`, type: "completed" };
+  if (task.updatedAt) return { text: `Güncellendi: ${formatDate(task.updatedAt)}`, type: "updated" };
+  return { text: `Oluşturuldu: ${formatDate(task.createdAt)}`, type: "created" };
 }
 function renderTasks() {
   taskList.innerHTML = "";
@@ -155,8 +144,11 @@ const filtered = tasks.filter(task => {
   taskText.classList.add("task-text");
   taskText.addEventListener("click", () =>enableInlineEdit(taskText,i));
 
-  const log =document.createElement("div");
-  log.className="log";
+const logData = getLog(task);
+const log = document.createElement("div");
+log.textContent = logData.text;
+log.classList.add("log", logData.type);
+
    const historyList = document.createElement("ul");
    task.history.forEach(entry =>{
     const li= document.createElement("li");
