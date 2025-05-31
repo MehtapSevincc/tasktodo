@@ -34,28 +34,7 @@ body {
 }
 
 
-#input {
-  flex: 1;
-  display: flex;
-  gap: 10px;
-}
 
-#newTaskInput {
-  flex: 1;
-  padding: 10px;
-  font-size: 15px;
-  border: 1 px solid #ccc;
-  border-radius: 5px;
-}
-#addtaskbtn{
-  padding: 0 14px;
-  font-size: 20px;
-  cursor: pointer;
-  background: #0e82fe;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
 
 .filters {
   display: flex;
@@ -75,11 +54,7 @@ body {
   color: white;
   border-color:#0e82fe ;
 }
-#tasklist{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+
 .task-item{
   background-color: #f9f9f9;
   padding: 12px 15px;

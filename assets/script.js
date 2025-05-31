@@ -1,7 +1,28 @@
 const inputDiv= document.getElementById("input");
+input.style.flex ="1";
+input.style.display ="flex";
+input.style.gap ="10px";
 const taskInput= document.getElementById("newTaskInput");
+newTaskInput.style.flex ="1";
+newTaskInput.style.padding ="10px";
+newTaskInput.style.fontSize = "15px";
+newTaskInput.style.border ="1px solid #ccc";
+newTaskInput.style.borderRadius= "5px";
+
+
 const addTaskBtn =document.getElementById("addtaskbtn");
+addTaskBtn.style.padding = "0 14px";
+addTaskBtn.style.fontSize = "20px";
+addTaskBtn.style.cursor = "pointer";
+addTaskBtn.style.background = "#0e82fe";
+addTaskBtn.style.color = "white";
+addTaskBtn.style.border = "none";
+addTaskBtn.style.borderRadius = "5px";
+
 const taskList =document.getElementById("tasklist");
+taskList.style.display = "flex";
+taskList.style.flexDirection = "column";
+taskList.style.gap = "10px";
 
 const allBtn= document.getElementById("allbtn");
 const completedBtn =document.getElementById("completebtn");
