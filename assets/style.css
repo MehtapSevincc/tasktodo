@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   background: #f9f6f6;
   display: flex;
   justify-content: center;
@@ -14,10 +14,10 @@ body {
   background: #fff;
   margin-top: 40px;
   padding: 20px 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
-.container h1{
+.container h1 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
@@ -32,17 +32,13 @@ body {
   cursor: pointer;
   color: #0e82fe;
 }
-
-
-
-
 .filters {
   display: flex;
   justify-content: center;
   margin: 20px 0;
   gap: 10px;
 }
-.filter-btn{
+.filter-btn {
   padding: 6px 12px;
   border: 1px solid #ccc;
   background: #eee;
@@ -52,20 +48,19 @@ body {
 .filter-btn.active {
   background: #0e82fe;
   color: white;
-  border-color:#0e82fe ;
+  border-color: #0e82fe;
 }
-
-.task-item{
+.task-item {
   background-color: #f9f9f9;
   padding: 12px 15px;
-  border-left:  5px solid #0e82fe;
+  border-left: 5px solid #0e82fe;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: 0.2s ease;
 }
-.task-item.completed{
+.task-item.completed {
   text-decoration: line-through;
   color: #777;
   border-left-color: rgb(2, 160, 2);
@@ -73,17 +68,17 @@ body {
 .task-item:hover {
   background: #f1f1f1;
 }
-.task-item .actions button{
+.task-item .actions button {
   background: none;
   border: none;
   font-size: 16px;
   cursor: pointer;
 }
-.task-item .actions{
+.task-item .actions {
   display: flex;
   gap: 10px;
 }
-.task-item .log{
+.task-item .log {
   font-size: 12px;
   color: #888;
   margin-top: 5px;
@@ -94,18 +89,19 @@ body {
   color: #a00;
   border-left-color: #a00;
 }
-.deleted-header{
+.deleted-header {
   color: #a00;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+.log.completed::before {
+  content: "✔ ";
+  color: green;
+}
+.log.updated::before {
+  content: "📝 ";
+  color: orange;
+}
+.log.created::before {
+  content: "📅 ";
+  color: gray;
+}
