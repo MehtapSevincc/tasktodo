@@ -23,7 +23,8 @@ tasks.push ({
   updatedAt: null,
   completedAt:null,
   deleted :false,
-  deletedAt: null
+  deletedAt: null,
+  history: [{action:"Oluşturuldu",date:now}]
 
 });
 
@@ -42,8 +43,10 @@ function enableInlineEdit(taskElement, index) {
     if (e.key === "Enter") {
       const newText = input.value.trim();
       if (newText) {
+        const now =new Date().toISOString();
         tasks[index].text = newText;
-        tasks[index].updatedAt = new Date().toISOString();
+        tasks[index].updatedAt = now;
+        tasks[index].history.push({ action : "Güncellendi",date:now});
         saveAndRender();
       } else {
         saveAndRender(); 
@@ -61,14 +64,21 @@ function enableInlineEdit(taskElement, index) {
 }
 
 function deleteTask(index){
+  const now =new Date().toISOString();
   tasks[index].deleted = true;
-  tasks[index].deletedAt = new Date().toISOString();
+  tasks[index].deletedAt = now;
+  tasks[index].history.push({action :"Silindi",date:now});
   saveAndRender();
 }
 
 function toggleComplete(index) {
-  tasks[index].completed= !tasks[index].completed;
-  tasks[index].completedAt =tasks[index].completed ? new Date().toISOString() : null;
+const now = new Date().toISOString();
+tasks[index].completed = !tasks[index].completed;
+tasks[index].completedAt = tasks[index].completed ? now : null;
+tasks[index].history.push({
+  action: tasks[index].completed ? "Tamamlandı" : "Tamamlanma kaldırıldı",
+  date: now
+});
   saveAndRender();
 }
 allBtn.addEventListener("click", () =>{
@@ -126,7 +136,14 @@ const filtered = tasks.filter(task => {
 
   const log =document.createElement("div");
   log.className="log";
-  log.textContent=getLog(task);
+   const historyList = document.createElement("ul");
+   task.history.forEach(entry =>{
+    const li= document.createElement("li");
+    li.textContent=` ${entry.action}: ${formatDate(entry.date)}`;
+    historyList.appendChild(li);
+
+   });
+   log.appendChild(historyList);
 
   const textConteiner =document.createElement("div");
   textConteiner.appendChild(taskText);
@@ -163,9 +180,6 @@ taskList.appendChild(div);
     const deletedTasks= tasks
     .filter(task =>task.deleted)
   .sort((a,b)=> new Date(b.deletedAt)-new Date(a.deletedAt));
-  
-
- 
   
   if(deletedTasks.length > 0){
     const deleteHeader =document.createElement("h3");
