@@ -189,6 +189,16 @@ taskList.appendChild(div);
     taskList.appendChild(div);
   });
 }
+function updateFilterButtonsState(){
+  const hasVisibleTasks = tasks.some(task => !task.deleted);
+
+  [allBtn,completedBtn,incompleteBtn].forEach(btn =>{
+    btn.disabled =!hasVisibleTasks;
+  });
+
+}
+updateFilterButtonsState();
+
 }
 function saveAndRender(){
   localStorage.setItem("tasks",JSON.stringify(tasks));
