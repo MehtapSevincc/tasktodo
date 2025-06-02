@@ -160,7 +160,7 @@ function renderTasks() {
     log.classList.add("log", logData.type);
 
     const historyList = document.createElement("ul");
-    task.history.forEach((entry) => {
+    task.history?.forEach((entry) => {
       const li = document.createElement("li");
       li.textContent = ` ${entry.action}: ${formatDate(entry.date)}`;
       historyList.appendChild(li);
