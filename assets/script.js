@@ -28,6 +28,11 @@ const completedBtn = document.getElementById("completebtn");
 const incompleteBtn = document.getElementById("incompletebtn");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+tasks.forEach((task) => {
+  if (task.showDetails === undefined) {
+    task.showDetails = false;
+  }
+});
 let currentFilter = "all";
 
 addTaskBtn.addEventListener("click", () => {
@@ -61,14 +66,14 @@ function enableInlineEdit(taskElement, index) {
     const newText = input.value.trim();
     if (newText && newText !== tasks[index].text) {
       const now = new Date().toISOString();
+      const previous =tasks[index].text;
       tasks[index].text = newText;
       tasks[index].updatedAt = now;
-      tasks[index].history.push({ action: "Güncellendi", date: now });
+      tasks[index].history.push({ action: "Güncellendi", date: now, previousText :previous });
     }
     saveAndRender();
   });
 }
-
 function deleteTask(index) {
   const now = new Date().toISOString();
   tasks[index].deleted = true;
@@ -76,7 +81,6 @@ function deleteTask(index) {
   tasks[index].history.push({ action: "Silindi", date: now });
   saveAndRender();
 }
-
 function toggleComplete(index) {
   const now = new Date().toISOString();
   tasks[index].completed = !tasks[index].completed;
@@ -154,22 +158,41 @@ function renderTasks() {
     taskText.classList.add("task-text");
     taskText.addEventListener("click", () => enableInlineEdit(taskText, index));
 
-    const logData = getLog(task);
-    const log = document.createElement("div");
-    log.textContent = logData.text;
-    log.classList.add("log", logData.type);
-
-    const historyList = document.createElement("ul");
-    task.history?.forEach((entry) => {
-      const li = document.createElement("li");
-      li.textContent = ` ${entry.action}: ${formatDate(entry.date)}`;
-      historyList.appendChild(li);
-    });
-    log.appendChild(historyList);
-
     const textConteiner = document.createElement("div");
+    textConteiner.className = "text-container";
     textConteiner.appendChild(taskText);
-    textConteiner.appendChild(log);
+
+    const toggleDetailBtn = document.createElement("button");
+    toggleDetailBtn.textContent = task.showDetails
+      ? "Detayları Gizle"
+      : "Detayları Göster";
+    toggleDetailBtn.className = "toggle-detail-btn";
+    toggleDetailBtn.onclick = () => {
+      task.showDetails = !task.showDetails;
+      saveAndRender();
+    };
+    div.appendChild(toggleDetailBtn);
+
+    if (task.showDetails) {
+      const logData = getLog(task);
+      const log = document.createElement("div");
+      log.textContent = logData.text;
+      log.classList.add("log", logData.type);
+
+      const historyList = document.createElement("ul");
+      task.history?.forEach((entry) => {
+        const li = document.createElement("li");
+        let entryText = ` ${entry.action}: ${formatDate(entry.date)}`;
+        if (entry.action === "Güncellendi" && entry.previousText) {
+          entryText += ` | Önceki: "${entry.previousText}"`;
+        }
+        li.textContent = entryText;
+        historyList.appendChild(li);
+      });
+
+      log.appendChild(historyList);
+      div.appendChild(log);
+    }
 
     const actions = document.createElement("div");
     actions.className = "actions";
@@ -197,6 +220,7 @@ function renderTasks() {
 
     taskList.appendChild(div);
   });
+
   if (currentFilter === "all") {
     const deletedTasks = tasks
       .filter((task) => task.deleted)
