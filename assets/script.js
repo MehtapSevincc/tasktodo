@@ -3,11 +3,11 @@ inputDiv.style.flex = "1";
 inputDiv.style.display = "flex";
 inputDiv.style.gap = "10px";
 const taskInput = document.getElementById("newTaskInput");
-newTaskInput.style.flex = "1";
-newTaskInput.style.padding = "10px";
-newTaskInput.style.fontSize = "15px";
-newTaskInput.style.border = "1px solid #ccc";
-newTaskInput.style.borderRadius = "5px";
+taskInput.style.flex = "1";
+taskInput.style.padding = "10px";
+taskInput.style.fontSize = "15px";
+taskInput.style.border = "1px solid #ccc";
+taskInput.style.borderRadius = "5px";
 
 const addTaskBtn = document.getElementById("addtaskbtn");
 addTaskBtn.style.padding = "0 14px";
@@ -66,10 +66,14 @@ function enableInlineEdit(taskElement, index) {
     const newText = input.value.trim();
     if (newText && newText !== tasks[index].text) {
       const now = new Date().toISOString();
-      const previous =tasks[index].text;
+      const previous = tasks[index].text;
       tasks[index].text = newText;
       tasks[index].updatedAt = now;
-      tasks[index].history.push({ action: "Güncellendi", date: now, previousText :previous });
+      tasks[index].history.push({
+        action: "Güncellendi",
+        date: now,
+        previousText: previous,
+      });
     }
     saveAndRender();
   });
